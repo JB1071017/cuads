@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Preview - ASCII Video Streamer{% endblock %}
+
+{% block content %}
+<div class="preview-container">
+    <h1>ASCII Video Preview</h1>
+    
+    <div class="preview-controls">
+        <button id="playBtn" class="btn btn-primary">Play</button>
+        <button id="pauseBtn" class="btn btn-secondary">Pause</button>
+        <button id="fullscreenBtn" class="btn btn-secondary">Fullscreen</button>
+    </div>
+
+    <div class="ascii-display-container">
+        <pre id="asciiDisplay" class="ascii-display"></pre>
+    </div>
+
+    <audio id="audioPlayer" controls style="width: 100%; margin-top: 20px;">
+        <source src="{{ url_for('stream_audio', video_id=video_id) }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="preview-info">
+        <p>Video ID: <code>{{ video_id }}</code></p>
+        <p>
+            <a href="{{ url_for('stream_ascii', video_id=video_id) }}" target="_blank" class="btn btn-secondary">
+                Open Terminal Stream
+            </a>
+        </p>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/preview.js') }}"></script>
+<script>
+    const videoId = "{{ video_id }}";
+    const streamUrl = "{{ url_for('stream_ascii', video_id=video_id) }}";
+    const audioUrl = "{{ url_for('stream_audio', video_id=video_id) }}";
+    
+    initPreview(videoId, streamUrl, audioUrl);
+</script>
+{% endblock %}

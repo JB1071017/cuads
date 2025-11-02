@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Videos - ASCII Video Streamer{% endblock %}
+
+{% block content %}
+<div class="manage-container">
+    <h1>Manage Videos</h1>
+    
+    <div class="videos-grid" id="videosGrid">
+        <div class="loading">Loading videos...</div>
+    </div>
+</div>
+
+<script>
+    async function loadVideos() {
+        try {
+            const response = await fetch('/api/videos');
+            const videos = await response.json();
+            
+            const grid = document.getElementById('videosGrid');
+            grid.innerHTML = '';
+            
+            videos.forEach(video => {
+                const videoCard = document.createElement('div');
+                videoCard.className = 'video-card';
+                
+                let statusBadge = '';
+                if (video.status === 'processing') {
+                    statusBadge = '<span class="status processing">Processing</span>';
+                } else if (video.status === 'completed') {
+                    statusBadge = '<span class="status completed">Ready</span>';
+                } else {
+                    statusBadge = '<span class="status error">Error</span>';
+                }
+                
+                videoCard.innerHTML = `
+                    <h3>${video.name}</h3>
+                    ${statusBadge}
+                    <div class="video-info">
+                        ${video.duration ? `<p>Duration: ${video.duration.toFixed(1)}s</p>` : ''}
+                        ${video.fps ? `<p>FPS: ${video.fps.toFixed(1)}</p>` : ''}
+                    </div>
+                    <div class="video-actions">
+                        <a href="/preview/${video.id}" class="btn btn-sm btn-primary">Preview</a>
+                        <a href="/stream/${video.id}" target="_blank" class="btn btn-sm btn-secondary">Terminal</a>
+                    </div>
+                    ${video.status === 'completed' ? `
+                    <div class="curl-command">
+                        <code>curl -N ${window.location.origin}/stream/${video.id}</code>
+                    </div>
+                    ` : ''}
+                `;
+                
+                grid.appendChild(videoCard);
+            });
+            
+        } catch (error) {
+            console.error('Error loading videos:', error);
+            document.getElementById('videosGrid').innerHTML = '<div class="error">Error loading videos</div>';
+        }
+    }
+    
+    // Load videos when page loads
+    document.addEventListener('DOMContentLoaded', loadVideos);
+</script>
+{% endblock %}

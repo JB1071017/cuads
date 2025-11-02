@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Video - ASCII Video Streamer{% endblock %}
+
+{% block content %}
+<div class="upload-container">
+    <h1>Upload Video</h1>
+    
+    <div class="upload-area" id="uploadArea">
+        <div class="upload-content">
+            <div class="upload-icon">📁</div>
+            <h3>Drag & Drop your video here</h3>
+            <p>or click to browse</p>
+            <p class="upload-info">Supported formats: MP4, MOV, MKV, WEBM, AVI (max 200MB, 2 minutes)</p>
+        </div>
+        <input type="file" id="fileInput" accept=".mp4,.mov,.mkv,.webm,.avi" style="display: none;">
+    </div>
+
+    <div id="uploadProgress" class="progress-container" style="display: none;">
+        <h3>Processing Video...</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p id="progressText">Initializing...</p>
+    </div>
+
+    <div id="result" class="result-container" style="display: none;">
+        <h3>🎉 Your video is ready!</h3>
+        <div class="result-links">
+            <a href="#" id="previewLink" class="btn btn-primary">Preview in Browser</a>
+            <a href="#" id="streamLink" target="_blank" class="btn btn-secondary">View Stream Info</a>
+        </div>
+        <div class="curl-command-container">
+            <label>Stream in terminal:</label>
+            <code class="curl-command" id="curlCommand"></code>
+            <button class="copy-btn" onclick="copyCurlCommand()">Copy</button>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}

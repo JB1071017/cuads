@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-content">
+        <h1>Stream Videos as ASCII Art</h1>
+        <p>Upload your videos and stream them as beautiful ASCII art directly in your terminal</p>
+        
+        <div class="cta-buttons">
+            <a href="{{ url_for('upload_page') }}" class="btn btn-primary">Upload Video</a>
+            <a href="{{ url_for('manage_page') }}" class="btn btn-secondary">View Streams</a>
+        </div>
+
+        <div class="terminal-demo">
+            <h3>Try it now in your terminal:</h3>
+            <code class="curl-command">
+                curl -N {{ request.url_root }}stream/jb
+            </code>
+        </div>
+    </div>
+</div>
+
+<div class="features">
+    <div class="feature">
+        <h3>🖥️ Terminal Streaming</h3>
+        <p>Watch videos directly in your terminal with ANSI-colored ASCII art</p>
+    </div>
+    <div class="feature">
+        <h3>🎵 Audio Support</h3>
+        <p>Stream synchronized audio along with the ASCII video</p>
+    </div>
+    <div class="feature">
+        <h3>🌐 Web Preview</h3>
+        <p>Preview your ASCII videos in the browser with perfect sync</p>
+    </div>
+</div>
+{% endblock %}
