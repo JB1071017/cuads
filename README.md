@@ -3,7 +3,7 @@
 
 **Upload videos, get curl command, stream as animated ASCII art in terminal. Storage-optimized - only text frames kept.**
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 # Stream the default ASCII animation
